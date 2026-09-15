@@ -1,0 +1,1 @@
+<?php $pageTitle="Order Complete | Artisan Brew Co.";require "includes/header.php";?><section class="success-page"><p class="eyebrow">THANK YOU</p><h1>Order <em>Placed.</em></h1><p>Your order #<?=intval($_GET['id']??0)?> has been recorded successfully.</p><a class="btn dark" href="products.php">Continue Shopping</a></section><?php require "includes/footer.php";?>

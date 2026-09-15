@@ -1,0 +1,8 @@
+<?php
+require "includes/db.php"; $pageTitle="Our Coffee | Artisan Brew Co."; $cat=$_GET['category']??"All";
+if($cat==="All") $stmt=$conn->prepare("SELECT * FROM products ORDER BY product_id DESC");
+else {$stmt=$conn->prepare("SELECT * FROM products WHERE category=? ORDER BY product_id DESC");$stmt->bind_param("s",$cat);}
+$stmt->execute();$products=$stmt->get_result();require "includes/header.php";?>
+<section class="page-hero"><p class="eyebrow">CHAPTER 01</p><h1>Our <em>Coffee.</em></h1><p>Choose your favorite roast and add it to your order.</p></section>
+<section class="section"><div class="filters"><?php foreach(["All","Dark Roast","Medium Roast","Decaf"] as $c):?><a class="<?=$cat===$c?'active':''?>" href="products.php<?= $c==="All"?'': '?category='.urlencode($c)?>"><?=$c?></a><?php endforeach;?></div>
+<div class="product-grid"><?php while($p=$products->fetch_assoc()):?><article class="product-card"><div class="product-photo"><img src="assets/images/<?=htmlspecialchars($p['image'])?>" alt=""></div><div class="product-info"><span class="tag"><?=htmlspecialchars(strtoupper($p['category']))?></span><h3><?=htmlspecialchars($p['name'])?></h3><p><?=htmlspecialchars($p['description'])?></p><div class="product-bottom"><strong>$<?=number_format($p['price'],2)?></strong><a class="add-link" href="add_to_cart.php?id=<?=$p['product_id']?>">Add to order</a></div></div></article><?php endwhile;?></div></section><?php require "includes/footer.php";?>

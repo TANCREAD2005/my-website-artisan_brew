@@ -1,0 +1,1 @@
+<?php session_start();require "includes/db.php";$id=(int)($_GET['id']??0);$s=$conn->prepare("SELECT product_id FROM products WHERE product_id=?");$s->bind_param("i",$id);$s->execute();if($s->get_result()->num_rows){$_SESSION['cart'][$id]=($_SESSION['cart'][$id]??0)+1;}header("Location: ".($_SERVER['HTTP_REFERER']??"products.php"));exit;?>
